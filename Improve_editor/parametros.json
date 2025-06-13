@@ -1,0 +1,151 @@
+{
+    "JOELHO": {
+        "ordem": [
+            "tipo/característica",
+            "material",
+            "dimensão nominal",
+            "acabamento",
+            "cor",
+            "norma"
+        ],
+        "valores_comuns": {
+            "tipo/característica": [
+                "90°",
+                "45°",
+                "90° ADAPTADOR"
+            ],
+            "material": [
+                "PVC",
+                "CPVC"
+            ],
+            "dimensão nominal": [
+                "EXEMPLO"
+            ],
+            "acabamento": [
+                "",
+                "EXEMPLO"
+            ],
+            "cor": [
+                "LARANJA",
+                "EXEMPLO"
+            ],
+            "norma": [
+                "NBR 15647"
+            ]
+        }
+    },
+    "ARRUELA": {
+        "ordem": [
+            "tipo",
+            "material",
+            "diâmetro"
+        ],
+        "valores_comuns": {
+            "tipo": [
+                "LISA",
+                "XADREZ"
+            ],
+            "material": [
+                "PVC",
+                "AC"
+            ],
+            "diâmetro": [
+                "20MM",
+                "40MM"
+            ]
+        }
+    },
+    "COIFA": {
+        "ordem": [
+            "finalidade",
+            "material",
+            "diâmetro"
+        ],
+        "valores_comuns": {
+            "finalidade": [
+                "P/ ESGOTO",
+                "PARAMETRO2",
+                "TESTE DE PARAMETRO"
+            ],
+            "material": [
+                "PVC",
+                "AC"
+            ],
+            "diâmetro": [
+                "20MM",
+                "40MM"
+            ]
+        }
+    },
+    "LÂMPADA": {
+        "ordem": [
+            "TIPO/CARACTERÍSTICA",
+            "DIÂMETRO TUBULAR",
+            "POTÊNCIA NOMINAL",
+            "INFO ADICIONAL",
+            "ESCALA DE TEMPERATURA",
+            "DIMENSÃO NOMINAL"
+        ],
+        "valores_comuns": {
+            "TIPO/CARACTERÍSTICA": [
+                "MISTA",
+                "LED TUBULAR",
+                "FLUORESCENTE"
+            ],
+            "DIÂMETRO TUBULAR": [
+                "T8",
+                "T5"
+            ],
+            "POTÊNCIA NOMINAL": [
+                "18W",
+                "54W"
+            ],
+            "INFO ADICIONAL": [
+                "BIVOLT"
+            ],
+            "ESCALA DE TEMPERATURA": [
+                "6500K"
+            ],
+            "DIMENSÃO NOMINAL": [
+                "1200MM"
+            ]
+        }
+    },
+    "LIXA": {
+        "ordem": [
+            "TIPO/CARACTERÍSTICA",
+            "DIMENSÃO NOMINAL"
+        ],
+        "valores_comuns": {
+            "TIPO/CARACTERÍSTICA": [
+                "P/ FERRO",
+                "D'ÁGUA",
+                "P/ MASSA"
+            ],
+            "DIMENSÃO NOMINAL": [
+                "GRÃO 100",
+                "GRÃO 150"
+            ]
+        }
+    },
+    "BOMBA": {
+        "ordem": [
+            "outro",
+            "apenas teste",
+            "bomba"
+        ],
+        "valores_comuns": {
+            "apenas teste": [
+                "12",
+                "dassadads"
+            ],
+            "bomba": [
+                "23"
+            ],
+            "outro": [
+                "5678",
+                "dfdgf"
+            ]
+        }
+    }
+}
