@@ -1,0 +1,15 @@
+[theme]
+
+primaryColor = "#f3de8a"  #amarelo. se remover esta configuração, vai usar o vermelho leve por padrão.
+
+[client]
+
+# showErrorDetails = false (ative quando o sistema estiver dispoível para uso)
+# toolbarMode = "minimal" (opções: "developer, "viewer", "minimal")
+
+
+#OUTRO PARÂMETROS QUE PODEM SER ESTABELECIDOS:
+# backgroundColor = "#FFFFFF"
+# secondaryBackgroundColor = "#F0F2F6"
+# textColor = "#262730"
+# font = "sans serif"
