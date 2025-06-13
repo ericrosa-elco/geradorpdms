@@ -5,7 +5,7 @@ primaryColor = "#f3de8a"  #amarelo. se remover esta configuração, vai usar o v
 [client]
 
 # showErrorDetails = false (ative quando o sistema estiver dispoível para uso)
-# toolbarMode = "minimal" (opções: "developer, "viewer", "minimal")
+toolbarMode = "minimal" #(opções: "developer, "viewer", "minimal")
 
 
 #OUTRO PARÂMETROS QUE PODEM SER ESTABELECIDOS:
