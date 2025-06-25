@@ -1,0 +1,17 @@
+{
+    "joao@email.com": {
+        "nome": "João",
+        "senha": "senha123",
+        "perfil": "usuario"
+    },
+    "ana@empresa.com": {
+        "nome": "Ana",
+        "senha": "abc456",
+        "perfil": "adm"
+    },
+    "elco@elco.com.br": {
+        "nome": "Elco Silva",
+        "senha": "segredo",
+        "perfil": "adm_master"
+    }
+}

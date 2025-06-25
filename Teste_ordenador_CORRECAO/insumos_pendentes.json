@@ -1,0 +1,172 @@
+[
+    {
+        "nome_item": "TESTEDEPENDENCIAS",
+        "ordem": [
+            "PENDENTE",
+            "TEMPO",
+            "VERIFICADOR"
+        ],
+        "valores_comuns": {
+            "PENDENTE": [
+                "a muitas horas"
+            ],
+            "TEMPO": [
+                "10h",
+                "25h",
+                "30h"
+            ],
+            "VERIFICADOR": [
+                "verification"
+            ]
+        },
+        "criado_por": "joao@email.com",
+        "nome_usuario": "João",
+        "data": "2025-06-24 11:48",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "TESTE2RAPIDO",
+        "ordem": [
+            "bomdia",
+            "boatarde",
+            "boanoite"
+        ],
+        "valores_comuns": {
+            "bomdia": [
+                "salve"
+            ],
+            "boatarde": [
+                "salve2"
+            ],
+            "boanoite": [
+                "salve3",
+                "salve4"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-24 12:05",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "TESTEDEFILTROS",
+        "ordem": [
+            "testando",
+            "os",
+            "filtros"
+        ],
+        "valores_comuns": {
+            "testando": [
+                "qeweqe"
+            ],
+            "os": [
+                "weqeqw"
+            ],
+            "filtros": [
+                "qeeqweqwe",
+                "ewqeqe"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-24 12:22",
+        "status": "rejeitado"
+    },
+    {
+        "nome_item": "ELETRODUTO",
+        "ordem": [
+            "DIAMETRO",
+            "MATERIAL",
+            "FINALIDADE"
+        ],
+        "valores_comuns": {
+            "DIAMETRO": [
+                "FADSDAS",
+                "fsad"
+            ],
+            "MATERIAL": [
+                "dsadads"
+            ],
+            "FINALIDADE": [
+                "dasdad"
+            ]
+        },
+        "criado_por": "joao@email.com",
+        "nome_usuario": "João",
+        "data": "2025-06-24 13:12",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "FITA ISOLANTE",
+        "ordem": [
+            "material",
+            "capacidade",
+            "largura",
+            "medida",
+            "cor"
+        ],
+        "valores_comuns": {
+            "material": [
+                "PVC"
+            ],
+            "capacidade": [
+                "750V"
+            ],
+            "largura": [
+                "19MM"
+            ],
+            "medida": [
+                "ROLO COM 30M"
+            ],
+            "cor": [
+                "AMARELO",
+                "BRANCO",
+                "VERMELHO"
+            ]
+        },
+        "criado_por": "ana@empresa.com",
+        "nome_usuario": "Ana",
+        "data": "2025-06-24 13:22",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "TESTEDEEXCLUSAO",
+        "ordem": [
+            "excluir",
+            "item",
+            "teste"
+        ],
+        "valores_comuns": {
+            "excluir": [
+                "exclua"
+            ],
+            "item": [],
+            "teste": [
+                "item"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-25 09:28",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "JDSKAJDSAD",
+        "ordem": [
+            "dasdada",
+            "dasdasda"
+        ],
+        "valores_comuns": {
+            "dasdada": [
+                "sdddas"
+            ],
+            "dasdasda": [
+                "daasdasd"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-25 09:54",
+        "status": "aprovado"
+    }
+]
