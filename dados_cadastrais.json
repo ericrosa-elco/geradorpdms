@@ -1,4 +1,17 @@
 {
-    "Testes": "Elco",
-    "eric.rosa": "Elco@2025"
+    "joao@elco.com.br": {
+        "nome": "João Dias Assado",
+        "senha": "Elco@3",
+        "perfil": "usuario"
+    },
+    "ana@elco.com.br": {
+        "nome": "Ana Banana",
+        "senha": "Elco@2",
+        "perfil": "adm"
+    },
+    "elco@elco.com.br": {
+        "nome": "Elco Silva",
+        "senha": "Elco@1",
+        "perfil": "adm_master"
+    }
 }

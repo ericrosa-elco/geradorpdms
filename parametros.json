@@ -101,6 +101,7 @@
                 "54W"
             ],
             "INFO ADICIONAL": [
+                "",
                 "BIVOLT"
             ],
             "ESCALA DE TEMPERATURA": [
@@ -130,21 +131,202 @@
     },
     "BOMBA": {
         "ordem": [
-            "outro",
             "apenas teste",
             "bomba"
         ],
         "valores_comuns": {
             "apenas teste": [
-                "12",
-                "dassadads"
+                "12"
             ],
             "bomba": [
                 "23"
+            ]
+        }
+    },
+    "BOMDIA": {
+        "ordem": [
+            "TESTEZINHO",
+            "ANGULO",
+            "ALO"
+        ],
+        "valores_comuns": {
+            "TESTEZINHO": [
+                "aí sim"
             ],
-            "outro": [
-                "5678",
-                "dfdgf"
+            "ANGULO": [
+                "deu certo"
+            ],
+            "ALO": [
+                "fala"
+            ]
+        }
+    },
+    "TESTEDEPENDENCIAS": {
+        "ordem": [
+            "PENDENTE",
+            "TEMPO",
+            "VERIFICADOR"
+        ],
+        "valores_comuns": {
+            "PENDENTE": [
+                "a muitas horas"
+            ],
+            "TEMPO": [
+                "10h",
+                "25h",
+                "30h"
+            ],
+            "VERIFICADOR": [
+                "verification"
+            ]
+        }
+    },
+    "ELETRODUTO": {
+        "ordem": [
+            "DIAMETRO",
+            "MATERIAL",
+            "FINALIDADE"
+        ],
+        "valores_comuns": {
+            "DIAMETRO": [
+                "FADSDAS",
+                "fsad"
+            ],
+            "MATERIAL": [
+                "dsadads"
+            ],
+            "FINALIDADE": [
+                "dasdad"
+            ]
+        }
+    },
+    "FITA ISOLANTE": {
+        "ordem": [
+            "material",
+            "capacidade",
+            "largura",
+            "medida",
+            "cor"
+        ],
+        "valores_comuns": {
+            "material": [
+                "PVC"
+            ],
+            "capacidade": [
+                "750V"
+            ],
+            "largura": [
+                "19MM"
+            ],
+            "medida": [
+                "ROLO COM 30M"
+            ],
+            "cor": [
+                "AMARELO",
+                "BRANCO",
+                "LILÁS",
+                "VERMELHO"
+            ]
+        }
+    },
+    "BANANA": {
+        "ordem": [
+            "tipo",
+            "cor",
+            "tamanho"
+        ],
+        "valores_comuns": {
+            "tipo": [
+                "caturra",
+                "prata",
+                "maca"
+            ],
+            "cor": [
+                "branca",
+                "amarela"
+            ],
+            "tamanho": [
+                "peq",
+                "gra",
+                "med"
+            ]
+        }
+    },
+    "BUJAO": {
+        "ordem": [
+            "material",
+            "medida",
+            "rosca",
+            "classe de pressão",
+            "acabamento",
+            "norma"
+        ],
+        "valores_comuns": {
+            "material": [
+                "AC",
+                "AI 304",
+                "AI 304L",
+                "COBRE",
+                "FOFO MALEAVEL"
+            ],
+            "medida": [
+                "1/2\"",
+                "1\"",
+                "1 1/2\"",
+                "1 1/4\"",
+                "2\"",
+                "2 1/2\"",
+                "3\"",
+                "3/4\""
+            ],
+            "rosca": [
+                "BSP",
+                "NPT"
+            ],
+            "classe de pressão": [
+                "#150",
+                "#300"
+            ],
+            "acabamento": [
+                "GF",
+                "PRETO"
+            ],
+            "norma": [
+                "DIN908"
+            ]
+        }
+    },
+    "DSADASDASDDAS": {
+        "ordem": [
+            "daadsadsads"
+        ],
+        "valores_comuns": {
+            "daadsadsads": [
+                "dsaasdasd"
+            ]
+        }
+    },
+    "ADWADWADAWD": {
+        "ordem": [
+            "dwaawdadad"
+        ],
+        "valores_comuns": {
+            "dwaawdadad": [
+                "dawdadaw"
+            ]
+        }
+    },
+    "BATATA": {
+        "ordem": [
+            "tamanho",
+            "sabor"
+        ],
+        "valores_comuns": {
+            "tamanho": [
+                "g"
+            ],
+            "sabor": [
+                "laranja"
             ]
         }
     }

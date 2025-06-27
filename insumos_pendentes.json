@@ -1,0 +1,254 @@
+[
+    {
+        "nome_item": "TESTEDEPENDENCIAS",
+        "ordem": [
+            "PENDENTE",
+            "TEMPO",
+            "VERIFICADOR"
+        ],
+        "valores_comuns": {
+            "PENDENTE": [
+                "a muitas horas"
+            ],
+            "TEMPO": [
+                "10h",
+                "25h",
+                "30h"
+            ],
+            "VERIFICADOR": [
+                "verification"
+            ]
+        },
+        "criado_por": "joao@email.com",
+        "nome_usuario": "João",
+        "data": "2025-06-24 11:48",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "TESTE2RAPIDO",
+        "ordem": [
+            "bomdia",
+            "boatarde",
+            "boanoite"
+        ],
+        "valores_comuns": {
+            "bomdia": [
+                "salve"
+            ],
+            "boatarde": [
+                "salve2"
+            ],
+            "boanoite": [
+                "salve3",
+                "salve4"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-24 12:05",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "TESTEDEFILTROS",
+        "ordem": [
+            "testando",
+            "os",
+            "filtros"
+        ],
+        "valores_comuns": {
+            "testando": [
+                "qeweqe"
+            ],
+            "os": [
+                "weqeqw"
+            ],
+            "filtros": [
+                "qeeqweqwe",
+                "ewqeqe"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-24 12:22",
+        "status": "rejeitado"
+    },
+    {
+        "nome_item": "ELETRODUTO",
+        "ordem": [
+            "DIAMETRO",
+            "MATERIAL",
+            "FINALIDADE"
+        ],
+        "valores_comuns": {
+            "DIAMETRO": [
+                "FADSDAS",
+                "fsad"
+            ],
+            "MATERIAL": [
+                "dsadads"
+            ],
+            "FINALIDADE": [
+                "dasdad"
+            ]
+        },
+        "criado_por": "joao@email.com",
+        "nome_usuario": "João",
+        "data": "2025-06-24 13:12",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "FITA ISOLANTE",
+        "ordem": [
+            "material",
+            "capacidade",
+            "largura",
+            "medida",
+            "cor"
+        ],
+        "valores_comuns": {
+            "material": [
+                "PVC"
+            ],
+            "capacidade": [
+                "750V"
+            ],
+            "largura": [
+                "19MM"
+            ],
+            "medida": [
+                "ROLO COM 30M"
+            ],
+            "cor": [
+                "AMARELO",
+                "BRANCO",
+                "VERMELHO"
+            ]
+        },
+        "criado_por": "ana@empresa.com",
+        "nome_usuario": "Ana",
+        "data": "2025-06-24 13:22",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "JDSKAJDSAD",
+        "ordem": [
+            "dasdada",
+            "dasdasda"
+        ],
+        "valores_comuns": {
+            "dasdada": [
+                "sdddas"
+            ],
+            "dasdasda": [
+                "daasdasd"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-25 09:54",
+        "status": "aprovado"
+    },
+    {
+        "nome_item": "BUJAO",
+        "ordem": [
+            "material",
+            "medida",
+            "rosca",
+            "classe de pressão",
+            "acabamento",
+            "norma"
+        ],
+        "valores_comuns": {
+            "material": [
+                "AI 304",
+                "AI 304L",
+                "AC",
+                "FOFO MALEAVEL"
+            ],
+            "medida": [
+                "1/2\"",
+                "1\"",
+                "1 1/2\"",
+                "1 1/4\"",
+                "2\"",
+                "2 1/2\"",
+                "3\"",
+                "3/4\""
+            ],
+            "rosca": [
+                "BSP",
+                "NPT"
+            ],
+            "classe de pressão": [
+                "#150",
+                "#300"
+            ],
+            "acabamento": [
+                "GF",
+                "PRETO"
+            ],
+            "norma": [
+                "DIN908"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-26 08:49",
+        "status": "aprovado",
+        "justificativa_admin": ""
+    },
+    {
+        "nome_item": "TESTEDEPENDENCIA3",
+        "ordem": [
+            "11111111111111"
+        ],
+        "valores_comuns": {
+            "11111111111111": [
+                "22222222222222"
+            ]
+        },
+        "criado_por": "joao@email.com",
+        "nome_usuario": "João",
+        "data": "2025-06-26 11:12",
+        "status": "rejeitado",
+        "justificativa_admin": ""
+    },
+    {
+        "nome_item": "ADWADWADAWD",
+        "ordem": [
+            "dwaawdadad"
+        ],
+        "valores_comuns": {
+            "dwaawdadad": [
+                "dawdadaw"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-26 12:09",
+        "status": "aprovado",
+        "justificativa_admin": "",
+        "codigo_erp": "12345"
+    },
+    {
+        "nome_item": "BATATA",
+        "ordem": [
+            "tamanho",
+            "sabor"
+        ],
+        "valores_comuns": {
+            "tamanho": [
+                "g"
+            ],
+            "sabor": [
+                "laranja"
+            ]
+        },
+        "criado_por": "elco@elco.com.br",
+        "nome_usuario": "Elco Silva",
+        "data": "2025-06-26 12:36",
+        "status": "aprovado",
+        "justificativa_admin": "",
+        "codigo_erp": "32142"
+    }
+]

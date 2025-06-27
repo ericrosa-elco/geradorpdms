@@ -1,0 +1,26 @@
+[
+    {
+        "item": "TESTEDEEXCLUSAO",
+        "justificativa": "Este item não é mais necessário.",
+        "solicitado_por": "Elco Silva",
+        "email": "elco@elco.com.br",
+        "data": "2025-06-25 09:34",
+        "status": "aprovado"
+    },
+    {
+        "item": "TESTE2RAPIDO",
+        "justificativa": "APAGAR TESTE",
+        "solicitado_por": "Elco Silva",
+        "email": "elco@elco.com.br",
+        "data": "2025-06-25 09:41",
+        "status": "recusado"
+    },
+    {
+        "item": "TESTE2RAPIDO",
+        "justificativa": "teste de deleção",
+        "solicitado_por": "Elco Silva",
+        "email": "elco@elco.com.br",
+        "data": "2025-06-25 09:43",
+        "status": "aprovado"
+    }
+]
