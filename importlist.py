@@ -4,7 +4,6 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import plotly.express as px
 
 #MAJOR.MINOR.PATCH[-LABEL]
 #-alpha: versão bem inicial, instável -beta: quase pronta, mas precisa de feedback -rc.1: release candidate (quase final)
