@@ -4,11 +4,13 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from itertools import product
 
 #MAJOR.MINOR.PATCH[-LABEL]
 #-alpha: versão bem inicial, instável -beta: quase pronta, mas precisa de feedback -rc.1: release candidate (quase final)
-Versao = "V2.0.0-beta"
-# --- Configuração Inicial da Página ---
+Versao = "V2.1.0-beta"
+
+#Config da página
 st.set_page_config(
     page_title="Sistema PDMS",
     page_icon="images/logo_elco_ajustado.png",
@@ -21,7 +23,7 @@ st.logo(
     icon_image=None
 )
 
-# --- Funções de Autenticação ---
+#Funções de autenticação
 def carregar_usuarios():
     if os.path.exists("dados_cadastrais.json"):
         with open("dados_cadastrais.json", "r", encoding='utf-8') as file:
@@ -69,7 +71,7 @@ def salvar_regras(dados):
     with open(ARQ_PARAMETROS, "w", encoding="utf-8") as f:
         json.dump(dados, f, indent=4, ensure_ascii=False)
 
-# --- Interfaces das Páginas ---
+###########################################################Interface das Páginas
 
 def pagina_login_cadastro():
     st.title("Autenticação de Usuário")
@@ -115,8 +117,10 @@ def pagina_login_cadastro():
 
 def pagina_principal():
     """Exibe a aplicação principal após o login."""
-    
-    # --- Sidebar com Logout e Navegação ---    
+    ARQ_PENDENTES = "insumos_pendentes.json"
+    ARQ_CODIGOS = "codigos_parametrizados.json"
+
+    #Sidebar de navegação  
     from streamlit_option_menu import option_menu
     with st.sidebar:
         pagina_selecionada = option_menu(
@@ -131,25 +135,21 @@ def pagina_principal():
                 "nav-link": {"font-size": "16px", "text-align": "left", "font-family": "inherit"},
                 "nav-link-selected": {"background-color": "#FFD700", "color": "black", "font-family": "inherit"},
             }
-        )  
+        )
 
-    #SESSÃO DE SUPORTE
-    
-
+###########################################################Página Início
     if pagina_selecionada == "Início":
-        
+
         ARQ_PENDENTES = "insumos_pendentes.json"
         insumos = []
-
-        # Carrega insumos pendentes
+        #Carrega insumos pendentes
         if os.path.exists(ARQ_PENDENTES):
             with open(ARQ_PENDENTES, "r", encoding="utf-8") as f:
                 try:
                     insumos = json.load(f)
                 except:
                     st.error("Erro ao carregar insumos pendentes.")
-
-        # Indicadores
+        #Indicadores
         qtd_pendentes = sum(1 for i in insumos if i["status"] == "pendente")
         regras = carregar_regras()
         qtd_aprovados = len(regras)
@@ -177,8 +177,7 @@ def pagina_principal():
             st.info("Nenhum insumo aguardando aprovação.")
         else:
             st.markdown("### Insumos Cadastrados")
-
-            # Filtros
+            #Filtros
             col_f1, col_f2 = st.columns([1, 2])
             with col_f1:
                 filtro_status = st.selectbox(
@@ -193,8 +192,7 @@ def pagina_principal():
                 if (filtro_status == "Todos" or i["status"].lower() == filtro_status.lower())
                 and (not busca or busca.lower() in i["nome_item"].lower())
             ]
-
-            # Ordena por data mais recente no topo
+            #Ordena por data mais recente no topo
             try:
                 insumos_filtrados.sort(
                     key=lambda x: datetime.strptime(x["data"], "%Y-%m-%d %H:%M"),
@@ -239,16 +237,11 @@ def pagina_principal():
 
                         if perfil_logado in ["adm", "adm_master"] and item['status'] == "pendente":
                             justificativa_admin = st.text_area("Justificativa:", key=f"justificativa_{idx}")
-                            codigo_erp = st.text_input("Código do Item (ERP):", key=f"codigo_erp_{idx}")
 
                             col1, col2 = st.columns(2)
                             if col1.button("✅ Aprovar", key=f"aprovar_{idx}"):
-                                if not codigo_erp.strip():
-                                    st.warning("⚠️ Para aprovar, preencha o Código do Item (ERP).")
-                                else:
                                     item['status'] = "aprovado"
                                     item['justificativa_admin'] = justificativa_admin.strip()
-                                    item['codigo_erp'] = codigo_erp.strip()
                                     salvar_insumos(insumos)
 
                                     if item["nome_item"] not in regras:
@@ -277,11 +270,7 @@ def pagina_principal():
                                 st.success(f"Insumo '{item['nome_item']}' removido da visualização.")
                                 st.rerun()
 
-
-
-
-
-    # Página: Gerador de Descrição
+###########################################################Página Gerador de Premissas
     if pagina_selecionada == "Gerador de Premissas":
         st.title("Padrão Descritivo de Materiais e Serviços")
         
@@ -298,15 +287,14 @@ def pagina_principal():
             st.warning("⚠️ Arquivo 'parametros.json' não encontrado. Cadastre um item para começar.")
 
         if regras:
-            # ### MUDANÇA PRINCIPAL ### Adicionado index=None para não pré-selecionar
+            #Adicionado index=None para não pré-selecionar
             item = st.selectbox(
                 "Escolha o item:", 
                 sorted(list(regras.keys())),
                 index=None,
                 placeholder="Selecione o tipo de item..."
             )
-            
-            # O código abaixo só roda se um item for selecionado
+            #Só roda se um item for selecionado
             if item:
                 descricao = [item]
                 ordem = regras[item].get("ordem", [])
@@ -314,10 +302,9 @@ def pagina_principal():
 
                 for campo in ordem:
                     opcoes = valores.get(campo, []) 
-                    if not opcoes: # Se não houver opções, pula este campo
+                    if not opcoes:
                         continue
                     
-                    # ### MUDANÇA SECUNDÁRIA ### Também adicionado index=None aqui
                     escolha = st.selectbox(
                         f"{campo.upper()}:", 
                         sorted(opcoes),
@@ -325,18 +312,102 @@ def pagina_principal():
                         placeholder=f"Escolha o valor para {campo.lower()}..."
                     )
                     
-                    # Adiciona a escolha à descrição apenas se o usuário selecionar algo
+                    #Adiciona a escolha à descrição apenas se o usuário selecionar algo
                     if escolha:
                         descricao.append(escolha.upper())
                 
                 resultado = " ".join(descricao)
-                st.text_area("Descrição final:", resultado, height=100)
-        else:
-            st.info("Adicione itens na página de 'Cadastro/Edição' para começar.")
 
-    # Página: Cadastro/Editar Itens
+                ARQ_CODIGOS = "codigos_parametrizados.json"
+
+                #Só tenta buscar se todos os parâmetros foram preenchidos
+                if len(descricao) == len(ordem) + 1:  # +1 por causa do nome do item na frente
+                    try:
+                        with open(ARQ_CODIGOS, "r", encoding="utf-8") as f:
+                            codigos_erp = json.load(f)
+                    except:
+                        codigos_erp = {}
+
+                    if resultado:
+                        col_cod, col_desc = st.columns([1, 5])
+
+                        ARQ_CODIGOS = "codigos_parametrizados.json"
+                        codigos_erp = {}
+                        if os.path.exists(ARQ_CODIGOS):
+                            with open(ARQ_CODIGOS, "r", encoding="utf-8") as f:
+                                try:
+                                    codigos_erp = json.load(f)
+                                except:
+                                    codigos_erp = {}
+
+                        with col_cod:
+                            if resultado in codigos_erp:
+                                st.text_input("Código ERP:", value=codigos_erp[resultado], disabled=True, label_visibility="visible")
+                            else:
+                                novo_codigo = st.text_input("Código ERP (registrar):")
+                                st.warning("Não cadastrado")
+                                if novo_codigo:
+                                    codigos_erp[resultado] = novo_codigo
+                                    with open(ARQ_CODIGOS, "w", encoding="utf-8") as f:
+                                        json.dump(codigos_erp, f, indent=4, ensure_ascii=False)
+                                    st.success("Código ERP salvo com sucesso.")
+                                    st.rerun()
+
+                        with col_desc:
+                            st.text_area("Descrição final:", resultado, height=100)
+        else:
+            st.info("Não há premissas cadastradas.")
+
+###Banco de Dados abaixo do gerador
+        st.divider()
+        with open("parametros.json", "r", encoding="utf-8") as f:
+            parametros = json.load(f)
+
+        codigos_erp = {}
+        if os.path.exists("codigos_parametrizados.json"):
+            with open("codigos_parametrizados.json", "r", encoding="utf-8") as f:
+                try:
+                    codigos_erp = json.load(f)
+                except:
+                    codigos_erp = {}
+        #Gerando todas as combinações
+        linhas = []
+
+        for nome_item, dados in parametros.items():
+            ordem = dados.get("ordem", [])
+            valores = dados.get("valores_comuns", {})
+            combinacoes = list(product(*[valores.get(p, [""]) for p in ordem]))
+
+            for combinacao in combinacoes:
+                descricao = f"{nome_item} " + " ".join(combinacao).strip()
+                codigo = codigos_erp.get(descricao, "")
+                linhas.append((codigo, descricao))
+        #Converte para dataframe
+        df = pd.DataFrame(linhas, columns=["Código ERP", "Descrição"])
+        #Filtros
+        col1, col2 = st.columns([2, 2])
+
+        with col1:
+            filtro_status = st.selectbox("Filtros:", ["Todos", "Com código registrado", "Sem código registrado"])
+
+        with col2:
+            termo_busca = st.text_input("Buscar na descrição:")
+        #Aplicação dos filtros
+        if filtro_status == "Com código registrado":
+            df = df[df["Código ERP"].astype(bool)]
+        elif filtro_status == "Sem código registrado":
+            df = df[~df["Código ERP"].astype(bool)]
+
+        if termo_busca:
+            df = df[df["Descrição"].str.lower().str.contains(termo_busca.strip().lower())]
+
+        #Exibição final
+        st.markdown("### Banco de Dados")
+        df = df.sort_values(by="Código ERP", ascending=False, na_position='first')
+        st.dataframe(df.reset_index(drop=True), use_container_width=True)
+
+###########################################################Página Cadastro/Editar Itens
     elif pagina_selecionada == "Cadastro/Edição de Itens":
-        # (O código desta seção permanece o mesmo da versão anterior, sem alterações)
         st.title("Cadastro e Edição de Itens")
 
         regras = carregar_regras()
@@ -348,7 +419,7 @@ def pagina_principal():
             if "etapa_parametros" not in st.session_state:
                 st.session_state.etapa_parametros = False
 
-            # --- Etapa 1: Nome e Ordem ---
+            #Etapa 1: Nome e Ordem
             with st.form("form_dados_iniciais"):
                 nome_item = st.text_input("Nome do novo item (ex: JOELHO)").strip().upper()
                 ordem_str = st.text_input("Ordem dos parâmetros (ex: ângulo,finalidade,material)").strip()
@@ -366,7 +437,7 @@ def pagina_principal():
                         st.session_state.etapa_parametros = True
                         st.rerun()
 
-            # --- Etapa 2: Parâmetros e Valores ---
+            #Etapa 2: Parâmetros e Valores
             if st.session_state.etapa_parametros:
                 st.markdown("### Defina os valores comuns (opcional)")
                 valores_comuns = {}
@@ -404,7 +475,7 @@ def pagina_principal():
                     salvar_pendente(novo_insumo)
                     st.success(f"Insumo '{novo_insumo['nome_item']}' enviado para aprovação.")
 
-                    # Resetar estado temporário
+                    #Resetar estado temporário
                     st.session_state.etapa_parametros = False
                     del st.session_state.nome_item_temp
                     del st.session_state.ordem_temp
@@ -445,7 +516,6 @@ def pagina_principal():
                     if not justificativa.strip():
                         st.warning("A justificativa é obrigatória.")
                     else:
-                        # Carrega solicitações existentes
                         ARQ_SOLICITACOES = "solicitacoes_exclusao.json"
                         solicitacoes = []
                         if os.path.exists(ARQ_SOLICITACOES):
@@ -470,15 +540,14 @@ def pagina_principal():
 
                         st.success(f"Solicitação de exclusão do item '{item_para_excluir}' enviada com sucesso.")
                         
-
+###########################################################VERIFICAR SITUAÇÃO DA PÁGINA
     elif pagina_selecionada == "Códigos":
         st.title("Códigos ERP para cadastro de insumos")
-        
 
+###########################################################Página Mensagens
     elif pagina_selecionada == "Mensagens":
         st.title("Chat do Sistema")
-        st.markdown("Sessão experimental.")
-
+        st.markdown("Sessão experimental.") ########################################################### REMOVER ###########################################################
         ARQ_CHAT = "notificacoes.json"
         mensagens = []
 
@@ -489,7 +558,7 @@ def pagina_principal():
                 except:
                     st.error("Erro ao carregar mensagens.")
 
-        # Campo para envio
+        #Envio
         st.markdown("### Nova Mensagem")
         with st.form("form_chat"):
             conteudo = st.text_area("Digite sua mensagem:")
@@ -506,7 +575,7 @@ def pagina_principal():
                 st.success("Mensagem enviada.")
                 st.rerun()
 
-        # Mostra mensagens
+        #Mensagens
         st.markdown("---")
         st.markdown("### Mensagens")
 
@@ -521,8 +590,7 @@ def pagina_principal():
                     </div>
                 """, unsafe_allow_html=True)
 
-
-
+###########################################################Página Usuários
     elif pagina_selecionada == "Usuários":
         usuarios = carregar_usuarios()
         email_logado = st.session_state.get("email", "")
@@ -566,7 +634,7 @@ def pagina_principal():
                                     st.success(f"Perfil de {nome} atualizado para '{novo_perfil}'.")
                                     st.rerun()
 
-                    # Confirmação da exclusão (fora do expander)
+                    #Pedir confirmação da ação (exclusão)
                     if st.session_state.get(f"confirm_excluir_{email}", False):
                         st.warning(f"Tem certeza que deseja excluir o usuário **{nome}** ({email})?")
                         col_confirma, col_cancela = st.columns(2)
@@ -581,7 +649,7 @@ def pagina_principal():
                             if st.button("❌ Cancelar", key=f"cancela_{email}"):
                                 st.session_state[f"confirm_excluir_{email}"] = False
 
-        # Seção: Solicitações de Exclusão (visível apenas para administradores)
+        # Seção: Solicitações de Exclusão (visível apenas para administradores) / Mudar localização desta seção.!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if perfil_logado in ["adm", "adm_master"]:
             st.markdown("---")
             st.markdown("### Solicitações de Exclusão de Itens")
@@ -612,7 +680,6 @@ def pagina_principal():
                             if s["item"] in regras:
                                 del regras[s["item"]]
                                 salvar_regras(regras)
-
                             # Atualiza status
                             # Remove a solicitação da lista
                             solicitacoes = [sol for sol in solicitacoes if not (sol["item"] == s["item"] and sol["status"] == "pendente")]
@@ -629,6 +696,7 @@ def pagina_principal():
                             st.info(f"Solicitação recusada.")
                             st.rerun()
 
+###########################################################Página Suporte
     if pagina_selecionada == "Suporte":
         st.title("Suporte do Sistema")
         st.divider()
@@ -660,7 +728,7 @@ def pagina_principal():
         st.session_state['username'] = ""
         st.rerun()
 
-# Lógica Principal de Roteamento
+###########################################################Lógica Principal de Roteamento
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
@@ -669,7 +737,7 @@ if st.session_state['logged_in']:
 else:
     pagina_login_cadastro()
 
-# Estilo do projeto fora o config.toml
+###########################################################Estilo do projeto (CSS) fora o config.toml
 st.markdown(
 f"""
     <style>
