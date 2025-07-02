@@ -8,7 +8,7 @@ from itertools import product
 
 #MAJOR.MINOR.PATCH[-LABEL]
 #-alpha: versão bem inicial, instável -beta: quase pronta, mas precisa de feedback -rc.1: release candidate (quase final)
-Versao = "V2.1.0-beta"
+Versao = "V2.2.0-beta"
 
 #Config da página
 st.set_page_config(
@@ -125,8 +125,8 @@ def pagina_principal():
     with st.sidebar:
         pagina_selecionada = option_menu(
             "Navegação",
-            options=["Início", "Gerador de Premissas", "Cadastro/Edição de Itens", "Códigos", "Mensagens", "Usuários", "Suporte", "Terminar sessão"],
-            icons=["house", "tools", "plus-circle", "graph-up", "chat-left-text", "people", "info-circle", "box-arrow-right"],
+            options=["Início", "Gerador de Premissas", "Cadastro/Edição de Itens", "Mensagens", "Usuários", "Suporte", "Terminar sessão"],
+            icons=["house", "tools", "plus-circle", "chat-left-text", "people", "info-circle", "box-arrow-right"],
             menu_icon="cast",
             default_index=0,
             styles={
@@ -483,26 +483,50 @@ def pagina_principal():
 
         elif modo == "Editar Item Existente":
             st.subheader("Editar item existente")
-            if not regras: st.warning("Nenhum item cadastrado ainda.")
+            if not regras:
+                st.warning("Nenhum item cadastrado ainda.")
             else:
                 item_selecionado = st.selectbox("Selecione o item para editar:", sorted(list(regras.keys())))
                 if item_selecionado:
                     item_data = regras[item_selecionado]
                     st.write(f"Parâmetros na ordem: `{'`, `'.join(item_data['ordem'])}`")
-                    param_selecionado = st.selectbox("Selecione o parâmetro para adicionar novo valor:", item_data["ordem"])
-                    with st.form("add_valor_form"):
+                    param_selecionado = st.selectbox("Selecione o parâmetro para solicitar novo valor:", item_data["ordem"])
+                    with st.form("solicitar_valor_form"):
                         novo_valor = st.text_input(f"Novo valor para '{param_selecionado.upper()}'").strip()
-                        submitted = st.form_submit_button("Adicionar valor")
+                        submitted = st.form_submit_button("Solicitar adição")
                         if submitted:
                             if novo_valor:
+                                # Verifica se o valor já existe (case insensitive)
                                 if novo_valor.upper() in [v.upper() for v in item_data["valores_comuns"].get(param_selecionado, [])]:
                                     st.warning("Este valor já existe nesse parâmetro.")
                                 else:
-                                    item_data["valores_comuns"].setdefault(param_selecionado, []).append(novo_valor)
-                                    item_data["valores_comuns"][param_selecionado].sort()
-                                    salvar_regras(regras)
-                                    st.success(f"Valor '{novo_valor}' adicionado ao parâmetro '{param_selecionado}' do item '{item_selecionado}'."); st.rerun()
-                            else: st.error("Digite um valor válido para adicionar.")
+                                    solicitacao = {
+                                        "tipo": "adicao_valor",
+                                        "item": item_selecionado,
+                                        "parametro": param_selecionado,
+                                        "valor": novo_valor,
+                                        "usuario": st.session_state.get("username", "Anônimo"),
+                                        "email": st.session_state.get("email", ""),
+                                        "data": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                                        "status": "Pendente"
+                                    }
+
+                                    caminho = "solicitacoes_parametros.json"
+                                    todas = []
+                                    if os.path.exists(caminho):
+                                        with open(caminho, "r", encoding="utf-8") as f:
+                                            try:
+                                                todas = json.load(f)
+                                            except:
+                                                todas = []
+                                    todas.append(solicitacao)
+                                    with open(caminho, "w", encoding="utf-8") as f:
+                                        json.dump(todas, f, indent=4, ensure_ascii=False)
+
+                                    st.success("Solicitação enviada para aprovação.")
+                            else:
+                                st.error("Digite um valor válido para solicitar.")
+
 
         elif modo == "Excluir Item":
             st.subheader("Solicitar exclusão de item")
@@ -540,10 +564,6 @@ def pagina_principal():
 
                         st.success(f"Solicitação de exclusão do item '{item_para_excluir}' enviada com sucesso.")
                         
-###########################################################VERIFICAR SITUAÇÃO DA PÁGINA
-    elif pagina_selecionada == "Códigos":
-        st.title("Códigos ERP para cadastro de insumos")
-
 ###########################################################Página Mensagens
     elif pagina_selecionada == "Mensagens":
         st.title("Chat do Sistema")
@@ -676,12 +696,12 @@ def pagina_principal():
 
                         if col_aprova.button("✅ Aprovar Exclusão", key=f"aprov_ex_{idx}"):
                             regras = carregar_regras()
-                            # Remove item
+                            # Remove o item do arquivo principal
                             if s["item"] in regras:
                                 del regras[s["item"]]
                                 salvar_regras(regras)
-                            # Atualiza status
-                            # Remove a solicitação da lista
+
+                            # Remove a solicitação do JSON
                             solicitacoes = [sol for sol in solicitacoes if not (sol["item"] == s["item"] and sol["status"] == "pendente")]
                             with open(ARQ_SOLICITACOES, "w", encoding="utf-8") as f:
                                 json.dump(solicitacoes, f, indent=4, ensure_ascii=False)
@@ -690,10 +710,63 @@ def pagina_principal():
                             st.rerun()
 
                         if col_recusa.button("❌ Recusar Exclusão", key=f"recus_ex_{idx}"):
-                            s["status"] = "recusado"
+                            solicitacoes = [sol for sol in solicitacoes if not (sol["item"] == s["item"] and sol["status"] == "pendente")]
                             with open(ARQ_SOLICITACOES, "w", encoding="utf-8") as f:
                                 json.dump(solicitacoes, f, indent=4, ensure_ascii=False)
-                            st.info(f"Solicitação recusada.")
+                            st.info("Solicitação recusada.")
+                            st.rerun()
+
+            # Seção: Solicitações de Adição de Valores (visível apenas para administradores)
+            st.markdown("### Solicitações de Adição de Valores a Parâmetros")
+
+            ARQ_SOLIC_VALORES = "solicitacoes_parametros.json"
+            solicitacoes_valores = []
+            if os.path.exists(ARQ_SOLIC_VALORES):
+                with open(ARQ_SOLIC_VALORES, "r", encoding="utf-8") as f:
+                    try:
+                        solicitacoes_valores = json.load(f)
+                    except:
+                        pass
+
+            pendentes_valores = [s for s in solicitacoes_valores if s["status"] == "Pendente"]
+
+            if not pendentes_valores:
+                st.info("Nenhuma solicitação de adição pendente.")
+            else:
+                for idx, s in enumerate(pendentes_valores):
+                    with st.expander(f"➕ {s['valor']} → {s['parametro']} do item {s['item']} — solicitado por {s['usuario']}"):
+                        st.markdown(f"**Item:** {s['item']}")
+                        st.markdown(f"**Parâmetro:** {s['parametro']}")
+                        st.markdown(f"**Valor solicitado:** `{s['valor']}`")
+                        st.markdown(f"**Data:** {s['data']}")
+                        col_aprova, col_recusa = st.columns(2)
+
+                        if col_aprova.button("✅ Aprovar Valor", key=f"aprovar_valor_{idx}"):
+                            regras = carregar_regras()
+                            item = s["item"]
+                            param = s["parametro"]
+                            valor = s["valor"]
+
+                            if item in regras:
+                                regras[item]["valores_comuns"].setdefault(param, []).append(valor)
+                                regras[item]["valores_comuns"][param] = sorted(set(regras[item]["valores_comuns"][param]))
+                                salvar_regras(regras)
+
+                            # Remove a solicitação do JSON
+                            solicitacoes_valores = [v for v in solicitacoes_valores if not (
+                                v["item"] == item and v["parametro"] == param and v["valor"] == valor and v["status"] == "Pendente")]
+                            with open(ARQ_SOLIC_VALORES, "w", encoding="utf-8") as f:
+                                json.dump(solicitacoes_valores, f, indent=4, ensure_ascii=False)
+
+                            st.success(f"Valor '{valor}' adicionado ao parâmetro '{param}' do item '{item}'.")
+                            st.rerun()
+
+                        if col_recusa.button("❌ Recusar Valor", key=f"recusar_valor_{idx}"):
+                            solicitacoes_valores = [v for v in solicitacoes_valores if not (
+                                v["item"] == s["item"] and v["parametro"] == s["parametro"] and v["valor"] == s["valor"] and v["status"] == "Pendente")]
+                            with open(ARQ_SOLIC_VALORES, "w", encoding="utf-8") as f:
+                                json.dump(solicitacoes_valores, f, indent=4, ensure_ascii=False)
+                            st.info("Solicitação de valor recusada.")
                             st.rerun()
 
 ###########################################################Página Suporte
